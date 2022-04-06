@@ -12,6 +12,7 @@ Tegevused on järgmises formaadis: "sisestusAeg;nimi;pikkKirjeldus;tehtud"
 
 *tehtud* - Boolean tüüpi rollis, kas sündmus on tehtud
 
+![Näide sündmusest terminalis:](/näidesündmusest.png)
 
 **Programmi avamisel kuvatakse esmane info ning kasutaja peab sisestama failinime :grey_exclamation: .txt :grey_exclamation: vormis**
 
