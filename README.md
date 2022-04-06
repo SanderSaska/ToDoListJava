@@ -1,5 +1,5 @@
 # ToDo list
-Programm, millega on võimalik jälgida oma tegevuste nimekirja
+Programm, millega on võimalik jälgida oma sündmuste/tegevuste nimekirja
 
 ## Töö põhimõte
 Tegevused on järgmises formaadis: "sisestusAeg;nimi;pikkKirjeldus;tehtud"
