@@ -7,4 +7,4 @@ Programmi avamisel tekib x valikut, mida valitakse numbritega
 
 ### 2 - Tegevuste nimekirja manipuleerimine
 Tegevuste nimekirja on võimalik lisada, kustutada, muuta tegevusi
-####
+#### Tegevuste nimekirja lisamine
