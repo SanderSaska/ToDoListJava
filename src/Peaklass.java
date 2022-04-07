@@ -64,7 +64,7 @@ public class Peaklass {
                     continue;
                 }
                 int indeks = Integer.parseInt(i);
-                if (indeks <= 0) {
+                if (indeks <= 0 || indeks >= tegevusList.listPikkus()) {
                     continue;
                 }
                 tegevusList.kustutaTegevus(indeks - 1);
@@ -77,7 +77,7 @@ public class Peaklass {
                     continue;
                 }
                 int indeks = Integer.parseInt(i);
-                if (indeks <= 0) {
+                if (indeks <= 0 || indeks >= tegevusList.listPikkus()) {
                     continue;
                 }
                 tegevusList.getTegevused().get(indeks-1).setTehtud(true);
