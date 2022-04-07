@@ -63,6 +63,10 @@ public class TegevusList {
         this.uuendaFaili();
     }
 
+    public int listPikkus(){
+        return this.tegevused.size();
+    }
+
     public void eemaldaTehtud() {
         ArrayList<Tegevus> uuedTegevused = new ArrayList<>();
         for (Tegevus t : this.tegevused) {
