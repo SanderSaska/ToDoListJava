@@ -32,6 +32,7 @@ public class Liides extends Application {
     public void start(Stage peaLava) {
 
         peaLava.show();
+        peaLava.setResizable(false);
 
         algus(peaLava);
 
@@ -41,7 +42,7 @@ public class Liides extends Application {
             Stage kusimus = new Stage();
 
             kusimus.setMinWidth(250);
-            kusimus.setMinHeight(100);
+            kusimus.setMinHeight(150);
 
             Label label = new Label("Kas tõesti tahad kinni panna?");
             Button okButton = new Button("Jah");
@@ -75,63 +76,58 @@ public class Liides extends Application {
 
     private void algus(Stage peaLava) {
 
-        peaLava.setMinWidth(425);
-        peaLava.setMinHeight(250);
-
         VBox read = new VBox(5);
 
         // Nupp
-        BorderPane bpNupp = new BorderPane();
+        BorderPane nuppBP = new BorderPane();
         Button sisestus = new Button("Sisesta");
         sisestus.setPrefSize(100, 50);
         sisestus.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
-        bpNupp.setCenter(sisestus);
+        nuppBP.setCenter(sisestus);
 
         // Tekstiväljad erinevatel ridadel
-        BorderPane bpAlgus = new BorderPane();
-        BorderPane bpFail = new BorderPane();
+        BorderPane algusBP = new BorderPane();
         Label algus = new Label("Tere tulemast!");
-        Label failinimeTekst = new Label("Sisestage failinimi, kus soovite sündmusi muuta");
-
         algus.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
+        algusBP.setCenter(algus);
+        algusBP.setPadding(new Insets(15, 5, 5, 5));
+
+        BorderPane failBP = new BorderPane();
+        Label failinimeTekst = new Label("Sisestage failinimi, kus soovite sündmusi muuta");
         failinimeTekst.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
-        bpAlgus.setCenter(algus);
-        bpAlgus.setPadding(new Insets(15, 5, 5, 5));
-        bpFail.setCenter(failinimeTekst);
-        bpFail.setPadding(new Insets(5, 5, 10, 5));
+        failBP.setCenter(failinimeTekst);
+        failBP.setPadding(new Insets(5, 5, 10, 5));
 
         // Failinime sisestusväli
-        HBox HBoxSisestus = new HBox();
+        HBox sisestusHBox = new HBox();
         TextField failinimiSisend = new TextField();
         failinimiSisend.setPrefSize(200, 25);
-        HBoxSisestus.setAlignment(Pos.CENTER);
-        HBoxSisestus.getChildren().addAll(failinimiSisend);
+        sisestusHBox.setAlignment(Pos.CENTER);
+        sisestusHBox.getChildren().addAll(failinimiSisend);
 
         // Viga sisestamisel tekst
-        BorderPane bpVale = new BorderPane();
+        BorderPane valeBP = new BorderPane();
         Label valeSisestus = new Label("Palun sisestage failinimi laiendiga .txt!");
         valeSisestus.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
-        bpVale.setCenter(valeSisestus);
-        bpVale.setVisible(false);
+        valeBP.setCenter(valeSisestus);
+        valeBP.setVisible(false);
 
-        read.getChildren().addAll(bpAlgus, bpFail, HBoxSisestus, bpNupp, bpVale);
+        read.getChildren().addAll(algusBP, failBP, sisestusHBox, nuppBP, valeBP);
 
-        Scene algusStseen = new Scene(read, 500, 300, Color.SNOW);
+        Scene algusStseen = new Scene(read, 400, 200, Color.SNOW);
         peaLava.setScene(algusStseen);
         peaLava.setTitle("Failinime sisestamine");
 
-        sisestus.setOnAction(event -> {
-            failinimeSisestus(peaLava, failinimiSisend, bpVale, valeSisestus);
-        });
+        sisestus.setOnAction(event -> failinimeSisestus(peaLava, failinimiSisend, valeBP, valeSisestus));
         algusStseen.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                failinimeSisestus(peaLava, failinimiSisend, bpVale, valeSisestus);
+                failinimeSisestus(peaLava, failinimiSisend, valeBP, valeSisestus);
             }
         });
     }
 
     private void failinimeSisestus(Stage peaLava, TextField failinimiSisend, BorderPane bpVale, Label valeSisestus) {
-        if (!failinimiSisend.getText().contains(".txt")) {
+        if (!failinimiSisend.getText().matches("\\w+\\.txt")) {
             bpVale.setVisible(true);
             FadeTransition kaotaTekst = new FadeTransition(Duration.seconds(5), valeSisestus);
             kaotaTekst.setFromValue(1.0);
@@ -148,36 +144,34 @@ public class Liides extends Application {
         VBox read = new VBox();
 
         // Tekst failist lugemine
-        BorderPane bpTekst = new BorderPane();
+        BorderPane tekstBP = new BorderPane();
         Label tekst = new Label("Loen failist andmeid");
         tekst.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
-        bpTekst.setCenter(tekst);
+        tekstBP.setCenter(tekst);
 
         // Tekst failist loetud
-        BorderPane bpTekstLoetud = new BorderPane();
+        BorderPane tekstLoetudBP = new BorderPane();
         Label tekstLoetud = new Label("Failist andmed loetud");
         tekstLoetud.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
-        bpTekstLoetud.setCenter(tekstLoetud);
-        bpTekstLoetud.setVisible(false);
+        tekstLoetudBP.setCenter(tekstLoetud);
+        tekstLoetudBP.setVisible(false);
 
-        read.getChildren().addAll(bpTekst, bpTekstLoetud);
+        read.getChildren().addAll(tekstBP, tekstLoetudBP);
 
-        Scene lugemisStseen = new Scene(read, 500, 300, Color.SNOW);
+        Scene lugemisStseen = new Scene(read, 400, 200, Color.SNOW);
         peaLava.setScene(lugemisStseen);
         peaLava.setTitle("Failist lugemine");
 
         // Proovib failist lugeda
         try {
             TegevusList tegevusList = new TegevusList(failinimi.split("\\.")[0], new File(failinimi));
-            bpTekstLoetud.setVisible(true);
-            bpTekst.setVisible(false);
-            FadeTransition kaotaTekst = new FadeTransition(Duration.seconds(3), bpTekstLoetud);
+            tekstLoetudBP.setVisible(true);
+            tekstBP.setVisible(false);
+            FadeTransition kaotaTekst = new FadeTransition(Duration.seconds(3), tekstLoetudBP);
             kaotaTekst.setFromValue(1.0);
             kaotaTekst.setToValue(0.0);
             kaotaTekst.play();
-            kaotaTekst.setOnFinished(event -> {
-                peaMenüü(peaLava, tegevusList);
-            });
+            kaotaTekst.setOnFinished(event -> peaMenüü(peaLava, tegevusList));
         } catch (Exception e) {
             Label viga = new Label("Failist lugemisel tekkis viga: ");
             viga.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 24.0));
@@ -188,8 +182,6 @@ public class Liides extends Application {
     }
 
     private void veateke(Stage peaLava, Label viga, Label veateade) {
-        peaLava.setMinHeight(300);
-        peaLava.setMinWidth(500);
 
         VBox read = new VBox();
 
@@ -216,17 +208,13 @@ public class Liides extends Application {
         peaLava.setScene(veaStseen);
         peaLava.setTitle("Viga!!!");
 
-        välju.setOnAction(event -> {
-            peaLava.hide();
-        });
-        prooviUuesti.setOnAction(event -> {
-            algus(peaLava);
-        });
+        välju.setOnAction(event -> peaLava.hide());
+        prooviUuesti.setOnAction(event -> algus(peaLava));
     }
 
     private void peaMenüü(Stage peaLava, TegevusList tegevusList) {
 
-        VBox vBox = new VBox();
+        VBox read = new VBox();
 
         Button vaataNupp = new Button("Vaata sündmusi");
         vaataNupp.setPrefSize(MAX_VALUE, 200);
@@ -248,52 +236,41 @@ public class Liides extends Application {
         väljuNupp.setStyle("-fx-font-size:36");
 
 
-        vBox.getChildren().addAll(vaataNupp, lisaNupp, kustutaNupp, tehtudNupp, puhastaNupp, väljuNupp);
+        read.getChildren().addAll(vaataNupp, lisaNupp, kustutaNupp, tehtudNupp, puhastaNupp, väljuNupp);
 
-        vaataNupp.setOnAction(event -> {
-            vaata(peaLava, tegevusList);
-        });
+        vaataNupp.setOnAction(event -> vaata(peaLava, tegevusList));
 
-        lisaNupp.setOnAction(event -> {
-            lisa1(peaLava, tegevusList);
-        });
+        lisaNupp.setOnAction(event -> lisa1(peaLava, tegevusList));
 
-        kustutaNupp.setOnAction(event -> {
-            kustuta(peaLava, tegevusList);
-        });
+        kustutaNupp.setOnAction(event -> kustuta(peaLava, tegevusList));
 
-        tehtudNupp.setOnAction(event -> {
-            tehtud(peaLava, tegevusList);
-        });
+        tehtudNupp.setOnAction(event -> tehtud(peaLava, tegevusList));
 
-        puhastaNupp.setOnAction(event -> {
-            puhasta(peaLava, tegevusList);
-        });
+        puhastaNupp.setOnAction(event -> puhasta(peaLava, tegevusList));
 
-        väljuNupp.setOnAction(event -> {
-            peaLava.hide();
-        });
+        väljuNupp.setOnAction(event -> peaLava.hide());
 
-        peaLava.setMinWidth(640);
-        peaLava.setMinHeight(550);
-        Scene stseen = new Scene(vBox, 640, 550, Color.SNOW);
+        Scene peaStseen = new Scene(read, 640, 550, Color.SNOW);
         peaLava.setTitle("ToDo list");
-        peaLava.setScene(stseen);
+        peaLava.setScene(peaStseen);
     }
 
     private void vaata(Stage peaLava, TegevusList tegevusList) {
 
+        ScrollPane sp = new ScrollPane();
+
         VBox read = new VBox(10);
         read.setPadding(new Insets(10, 10, 10, 10));
 
-        BorderPane bpTühi = new BorderPane();
+        // Tekst kui sündmusi pole
+        BorderPane tühiBP = new BorderPane();
         Label tühi = new Label("Sündmusi pole");
         tühi.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 16.0));
         tühi.setVisible(false);
-        bpTühi.setCenter(tühi);
+        tühiBP.setCenter(tühi);
+        read.getChildren().add(tühiBP);
 
-        read.getChildren().add(bpTühi);
-
+        // Tagasi peamenüüsse nupp
         HBox nupudHBox = new HBox();
         Button tagasi = new Button("Tagasi");
         tagasi.setPrefSize(75, 25);
@@ -301,10 +278,13 @@ public class Liides extends Application {
         nupudHBox.getChildren().add(tagasi);
         nupudHBox.setAlignment(Pos.CENTER);
 
+        // Sündmuste kirjeldused igal real eraldi
         int pikkus = 0;
         if (tegevusList.listPikkus() > 0){
             for (int i = 0; i < tegevusList.listPikkus(); i++) {
                 Label sündmus = new Label("* " + tegevusList.getTegevused().get(i).toString());
+                sündmus.setWrapText(true);
+                sündmus.setMaxWidth(450);
                 sündmus.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 16.0));
                 read.getChildren().add(sündmus);
                 pikkus += 25;
@@ -314,106 +294,169 @@ public class Liides extends Application {
             tühi.setVisible(true);
         }
 
+        // Lisab pärast kirjeldusi nupud
         read.getChildren().add(nupudHBox);
 
-        Scene vaata = new Scene(read, 800, pikkus+150);
+        Scene vaataStseen = new Scene(read, 600, 400);
 
-        tagasi.setOnAction(event -> {
-            peaMenüü(peaLava, tegevusList);
-        });
-
-        peaLava.setScene(vaata);
+        sp.setContent(read);
+        peaLava.setScene(vaataStseen);
         peaLava.setTitle("Vaata sündmusi");
+
+        tagasi.setOnAction(event -> peaMenüü(peaLava, tegevusList));
     }
 
     private void lisa1(Stage peaLava, TegevusList tegevusList) {
-        VBox read = new VBox();
 
-        // Nupp
-        BorderPane bpNupp = new BorderPane();
-        Button sisestus = new Button("Sisesta");
-        sisestus.setPrefSize(100, 50);
-        sisestus.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
-        bpNupp.setCenter(sisestus);
+        VBox read = new VBox(5);
 
         // Tekst failist lugemine
-        BorderPane bpTekst = new BorderPane();
-        Label tekst = new Label("Sisestage sündmuse nimi: ");
-        tekst.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
-        bpTekst.setCenter(tekst);
+        BorderPane sisestusBP = new BorderPane();
+        Label sisestus = new Label("Sisestage sündmuse nimi");
+        sisestus.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
+        sisestus.setPadding(new Insets(10,0,0,0));
+        sisestusBP.setCenter(sisestus);
 
         // Tekstiväli
-        HBox HBoxSisestus = new HBox();
-        TextField failinimiSisend = new TextField();
-        failinimiSisend.setPrefSize(200, 25);
-        HBoxSisestus.setAlignment(Pos.CENTER);
-        HBoxSisestus.getChildren().addAll(failinimiSisend);
+        HBox sisestusHBox = new HBox();
+        TextField sisend = new TextField();
+        sisend.setPrefSize(200, 25);
+        sisestusHBox.setAlignment(Pos.CENTER);
+        sisestusHBox.getChildren().addAll(sisend);
 
-        read.getChildren().addAll(bpTekst, HBoxSisestus, bpNupp);
+        // Nupud
+        HBox nupudHBox = new HBox();
+        Button sisesta = new Button("Sisesta");
+        sisesta.setPrefSize(75, 25);
+        sisesta.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
+        Button tagasi = new Button("Tagasi");
+        tagasi.setPrefSize(75, 25);
+        tagasi.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
+        nupudHBox.getChildren().addAll(tagasi, sisesta);
+        nupudHBox.setAlignment(Pos.CENTER);
 
-        Scene lisa1 = new Scene(read, 500, 300, Color.SNOW);
-        peaLava.setScene(lisa1);
+        // Tekst kui on vale sisestus
+        BorderPane valeBP = new BorderPane();
+        Label vale = new Label("Sisestage sündmuse nimi ilma märgita ;");
+        vale.setFont(Font.font("Times New Roman", FontWeight.BOLD, 15.0));
+        vale.setPadding(new Insets(10,0,0,0));
+        valeBP.setCenter(vale);
+        valeBP.setVisible(false);
+
+        read.getChildren().addAll(sisestusBP, sisestusHBox, nupudHBox, valeBP);
+
+        Scene lisa1Stseen = new Scene(read, 300, 200, Color.SNOW);
+        peaLava.setScene(lisa1Stseen);
         peaLava.setTitle("Sündmuse nimi");
 
-        sisestus.setOnAction(event -> {
-            String sündmuseNimi = failinimiSisend.getText();
-            lisa2(peaLava, tegevusList, sündmuseNimi);
+        sisesta.setOnAction(event -> {
+            kontrolliSisendLisamiselLisa1(peaLava, tegevusList, sisend, valeBP, vale);
         });
-        lisa1.setOnKeyPressed(event -> {
+
+        lisa1Stseen.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                String sündmuseNimi = failinimiSisend.getText();
-                lisa2(peaLava, tegevusList, sündmuseNimi);
+                kontrolliSisendLisamiselLisa1(peaLava, tegevusList, sisend, valeBP, vale);
             }
         });
+
+        tagasi.setOnAction(event -> peaMenüü(peaLava, tegevusList));
+    }
+
+    private void kontrolliSisendLisamiselLisa1(Stage peaLava, TegevusList tegevusList, TextField sisend, BorderPane valeBP, Label vale) {
+        String sündmuseNimi = sisend.getText();
+        if (sündmuseNimi.matches(".*;.*")) {
+            valeBP.setVisible(true);
+            FadeTransition kaotaTekst = new FadeTransition(Duration.seconds(5), vale);
+            kaotaTekst.setFromValue(1.0);
+            kaotaTekst.setToValue(0.0);
+            kaotaTekst.play();
+        } else {
+            lisa2(peaLava, tegevusList, sündmuseNimi);
+        }
     }
 
     private void lisa2(Stage peaLava, TegevusList tegevusList, String sündmuseNimi) {
-        VBox read = new VBox();
 
-        // Nupp
-        BorderPane bpNupp = new BorderPane();
-        Button sisestus = new Button("Sisesta");
-        sisestus.setPrefSize(100, 50);
-        sisestus.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
-        bpNupp.setCenter(sisestus);
+        VBox read = new VBox(5);
 
         // Tekst failist lugemine
-        BorderPane bpTekst = new BorderPane();
+        BorderPane tekstBP = new BorderPane();
         Label tekst = new Label("Sisestage pikem täpsustav kirjeldus: ");
-        tekst.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
-        bpTekst.setCenter(tekst);
+        tekst.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
+        tekstBP.setCenter(tekst);
+        tekstBP.setPadding(new Insets(10,0,0,0));
 
         // Tekstiväli
-        HBox HBoxSisestus = new HBox();
-        TextField failinimiSisend = new TextField();
-        failinimiSisend.setPrefSize(200, 25);
-        HBoxSisestus.setAlignment(Pos.CENTER);
-        HBoxSisestus.getChildren().addAll(failinimiSisend);
+        HBox sisestusHBox = new HBox();
+        TextField sisend = new TextField();
+        sisend.setPrefSize(200, 25);
+        sisestusHBox.setAlignment(Pos.CENTER);
+        sisestusHBox.getChildren().addAll(sisend);
 
-        read.getChildren().addAll(bpTekst, HBoxSisestus, bpNupp);
+        // Nupud
+        HBox nupudHBox = new HBox();
+        Button sisesta = new Button("Sisesta");
+        sisesta.setPrefSize(75, 25);
+        sisesta.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
+        Button tagasi = new Button("Tagasi");
+        tagasi.setPrefSize(75, 25);
+        tagasi.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 18.0));
+        nupudHBox.getChildren().addAll(tagasi, sisesta);
+        nupudHBox.setAlignment(Pos.CENTER);
 
-        Scene lisa1 = new Scene(read, 500, 300, Color.SNOW);
-        peaLava.setScene(lisa1);
+        // Tekst kui on vale sisestus
+        BorderPane valeBP = new BorderPane();
+        Label vale = new Label("Sisestage sündmuse nimi ilma märgita ;");
+        vale.setFont(Font.font("Times New Roman", FontWeight.BOLD, 15.0));
+        vale.setPadding(new Insets(10,0,0,0));
+        valeBP.setCenter(vale);
+        valeBP.setVisible(false);
+
+        read.getChildren().addAll(tekstBP, sisestusHBox, nupudHBox, valeBP);
+
+        Scene lisa2Stseen = new Scene(read, 300, 200, Color.SNOW);
+        peaLava.setScene(lisa2Stseen);
         peaLava.setTitle("Sündmuse kirjeldus");
 
-        sisestus.setOnAction(event -> {
-            String sündmuseKirjeldus = failinimiSisend.getText();
-            tegevusList.lisaListi(new Tegevus(sündmuseNimi, sündmuseKirjeldus, false, System.currentTimeMillis()));
-            tehtudAken(peaLava, tegevusList, " lisatud");
+        sisesta.setOnAction(event -> {
+            kontrolliSisendLisamiselLisa2(peaLava, tegevusList, sündmuseNimi, sisend, valeBP, vale);
         });
-        lisa1.setOnKeyPressed(event -> {
+
+        lisa2Stseen.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
-                String sündmuseKirjeldus = failinimiSisend.getText();
-                tegevusList.lisaListi(new Tegevus(sündmuseNimi, sündmuseKirjeldus, false, System.currentTimeMillis()));
-                tehtudAken(peaLava, tegevusList, " lisatud");
+                kontrolliSisendLisamiselLisa2(peaLava, tegevusList, sündmuseNimi, sisend, valeBP, vale);
             }
         });
+
+        tagasi.setOnAction(event -> lisa1(peaLava, tegevusList));
+    }
+
+    private void kontrolliSisendLisamiselLisa2(Stage peaLava, TegevusList tegevusList, String sündmuseNimi, TextField sisend, BorderPane valeBP, Label vale) {
+        String sündmuseKirjeldus = sisend.getText();
+        if (sündmuseKirjeldus.matches(".*;.*")) {
+            valeBP.setVisible(true);
+            FadeTransition kaotaTekst = new FadeTransition(Duration.seconds(5), vale);
+            kaotaTekst.setFromValue(1.0);
+            kaotaTekst.setToValue(0.0);
+            kaotaTekst.play();
+        } else {
+            try {
+                tegevusList.lisaListi(new Tegevus(sündmuseNimi, sündmuseKirjeldus, false, System.currentTimeMillis()));
+                tehtudAken(peaLava, tegevusList, " lisatud");
+            } catch (Exception e) {
+                veateke(peaLava, new Label("Tekkis viga sündmuse lisamisel"), new Label(e.getMessage()));
+            }
+        }
     }
 
     private void kustuta(Stage peaLava, TegevusList tegevusList) {
-        VBox read = new VBox(10);
-        read.setPadding(new Insets(10, 0, 0, 5));
 
+        ScrollPane sp = new ScrollPane();
+
+        VBox read = new VBox(10);
+        read.setPadding(new Insets(0, 0, 0, 5));
+
+        // Tekst kui pole sündmusi
         BorderPane bpTühi = new BorderPane();
         Label tühi = new Label("Pole midagi võtta");
         tühi.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 16.0));
@@ -422,6 +465,7 @@ public class Liides extends Application {
 
         read.getChildren().add(bpTühi);
 
+        // Valiknupud
         ToggleGroup nuppudeValik = new ToggleGroup();
 
         HBox nupudHBox = new HBox();
@@ -436,16 +480,17 @@ public class Liides extends Application {
         nupudHBox.getChildren().addAll(tagasi, vali);
         nupudHBox.setAlignment(Pos.CENTER);
 
+        // Paneb iga tegevuse eraldi reale
         HashMap<RadioButton, Integer> valikud = new HashMap<>();
-        int pikkus = 0;
         if (tegevusList.listPikkus() > 0){
             for (int i = 0; i < tegevusList.listPikkus(); i++) {
                 RadioButton nupp = new RadioButton(tegevusList.getTegevused().get(i).toString());
+                nupp.setWrapText(true);
+                nupp.maxWidth(500);
                 nupp.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 16.0));
                 nupp.setToggleGroup(nuppudeValik);
                 read.getChildren().add(nupp);
                 valikud.put(nupp, i);
-                pikkus += 25;
             }
             vali.setVisible(true);
         }
@@ -455,11 +500,13 @@ public class Liides extends Application {
 
         read.getChildren().add(nupudHBox);
 
-        Scene tehtud = new Scene(read, 800, pikkus+150);
+        Scene kustutaStseen = new Scene(read, 600, 400);
 
-        tagasi.setOnAction(event -> {
-            peaMenüü(peaLava, tegevusList);
-        });
+        sp.setContent(read);
+        peaLava.setTitle("Kustuta sündmus");
+        peaLava.setScene(kustutaStseen);
+
+        tagasi.setOnAction(event -> peaMenüü(peaLava, tegevusList));
 
         vali.setOnAction(event -> {
             if (nuppudeValik.getSelectedToggle() != null){
@@ -469,14 +516,14 @@ public class Liides extends Application {
                 tehtudAken(peaLava, tegevusList, " kustutatud");
             }
         });
-
-        peaLava.setScene(tehtud);
     }
 
     private void tehtud(Stage peaLava, TegevusList tegevusList) {
 
+        ScrollPane sp = new ScrollPane();
+
         VBox read = new VBox(10);
-        read.setPadding(new Insets(10, 0, 0, 5));
+        read.setPadding(new Insets(0, 0, 0, 5));
 
         BorderPane bpTühi = new BorderPane();
         Label tühi = new Label("Pole midagi võtta");
@@ -501,15 +548,15 @@ public class Liides extends Application {
         nupudHBox.setAlignment(Pos.CENTER);
 
         HashMap<RadioButton, Integer> valikud = new HashMap<>();
-        int pikkus = 0;
         if (tegevusList.listPikkus() > 0){
             for (int i = 0; i < tegevusList.listPikkus(); i++) {
                 RadioButton nupp = new RadioButton(tegevusList.getTegevused().get(i).toString());
+                nupp.setWrapText(true);
+                nupp.maxWidth(500);
                 nupp.setFont(Font.font("Times New Roman", FontWeight.SEMI_BOLD, 16.0));
                 nupp.setToggleGroup(nuppudeValik);
                 read.getChildren().add(nupp);
                 valikud.put(nupp, i);
-                pikkus += 25;
             }
             vali.setVisible(true);
         }
@@ -519,11 +566,13 @@ public class Liides extends Application {
 
         read.getChildren().add(nupudHBox);
 
-        Scene tehtud = new Scene(read, 800, pikkus+150);
+        Scene tehtudStseen = new Scene(read, 600, 400);
 
-        tagasi.setOnAction(event -> {
-            peaMenüü(peaLava, tegevusList);
-        });
+        sp.setContent(read);
+        peaLava.setTitle("Märgi sündmus tehtuks");
+        peaLava.setScene(tehtudStseen);
+
+        tagasi.setOnAction(event -> peaMenüü(peaLava, tegevusList));
 
         vali.setOnAction(event -> {
             if (nuppudeValik.getSelectedToggle() != null){
@@ -533,8 +582,6 @@ public class Liides extends Application {
                 tehtudAken(peaLava, tegevusList, " märgitud tehtuks");
             }
         });
-
-        peaLava.setScene(tehtud);
     }
 
     private void tehtudAken(Stage peaLava, TegevusList tegevusList, String protsess) {
@@ -542,19 +589,17 @@ public class Liides extends Application {
         // Tekst failist loetud
         BorderPane bpMärgitudTehtuks = new BorderPane();
         Label tekstLoetud = new Label("Sündmus on" + protsess);
-        tekstLoetud.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
+        tekstLoetud.setFont(Font.font("Times New Roman", FontWeight.BOLD, 25.0));
         bpMärgitudTehtuks.setCenter(tekstLoetud);
 
-        Scene tehtud = new Scene(bpMärgitudTehtuks, 500, 300, Color.SNOW);
+        Scene tehtudAknaStseen = new Scene(bpMärgitudTehtuks, 500, 300, Color.SNOW);
         FadeTransition kaotaTekst = new FadeTransition(Duration.seconds(3), bpMärgitudTehtuks);
         kaotaTekst.setFromValue(1.0);
         kaotaTekst.setToValue(0.0);
         kaotaTekst.play();
-        kaotaTekst.setOnFinished(event -> {
-            peaMenüü(peaLava, tegevusList);
-        });
+        kaotaTekst.setOnFinished(event -> peaMenüü(peaLava, tegevusList));
 
-        peaLava.setScene(tehtud);
+        peaLava.setScene(tehtudAknaStseen);
         peaLava.setTitle("Tehtud");
 
     }
@@ -563,11 +608,11 @@ public class Liides extends Application {
 
         BorderPane bpTekst = new BorderPane();
         Label tekst = new Label("Tehtud sündmused on puhastatud");
-        tekst.setFont(Font.font("Times New Roman", FontWeight.BOLD, 18.0));
+        tekst.setFont(Font.font("Times New Roman", FontWeight.BOLD, 25.0));
         bpTekst.setCenter(tekst);
 
-        Scene puhasta = new Scene(bpTekst, 500, 300, Color.SNOW);
-        peaLava.setScene(puhasta);
+        Scene puhastaStseen = new Scene(bpTekst, 500, 300, Color.SNOW);
+        peaLava.setScene(puhastaStseen);
         peaLava.setTitle("Puhasta tehtud sündmused");
 
         tegevusList.eemaldaTehtud();
@@ -577,8 +622,6 @@ public class Liides extends Application {
         kaotaTekst.setFromValue(1.0);
         kaotaTekst.setToValue(0.0);
         kaotaTekst.play();
-        kaotaTekst.setOnFinished(event -> {
-            peaMenüü(peaLava, tegevusList);
-        });
+        kaotaTekst.setOnFinished(event -> peaMenüü(peaLava, tegevusList));
     }
 }
