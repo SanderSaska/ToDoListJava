@@ -1,6 +1,11 @@
 # ToDo list
 Programm, millega on võimalik jälgida oma sündmuste/tegevuste nimekirja
 
+## Graafikaliidesega või mitte
+Kui soovite graafikaliidesega programmi kasutada, siis käivitage **Liides.java**
+
+Kui ei soovi, siis käivitage **Peaklass.java**
+
 ## Töö põhimõte
 Tegevused on järgmises formaadis: "sisestusAeg;nimi;pikkKirjeldus;tehtud"
 
