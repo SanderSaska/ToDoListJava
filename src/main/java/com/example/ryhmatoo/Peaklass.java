@@ -1,3 +1,5 @@
+package com.example.ryhmatoo;
+
 import java.io.File;
 import java.io.StringReader;
 import java.util.Random;
