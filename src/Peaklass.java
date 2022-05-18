@@ -64,7 +64,7 @@ public class Peaklass {
                     continue;
                 }
                 int indeks = Integer.parseInt(i);
-                if (indeks <= 0 || indeks >= tegevusList.listPikkus()) {
+                if (indeks <= 0 || indeks >= tegevusList.listPikkus()+1) {
                     continue;
                 }
                 tegevusList.kustutaTegevus(indeks - 1);
@@ -77,10 +77,10 @@ public class Peaklass {
                     continue;
                 }
                 int indeks = Integer.parseInt(i);
-                if (indeks <= 0 || indeks >= tegevusList.listPikkus()) {
+                if (indeks <= 0 || indeks >= tegevusList.listPikkus()+1) {
                     continue;
                 }
-                tegevusList.getTegevused().get(indeks-1).setTehtud(true);
+                tegevusList.muudaTehtuks(indeks);
                 System.out.println("Tegevus on nüüd märgitud tehtuks.");
             } else if (valik == 5){
                 tegevusList.eemaldaTehtud();
