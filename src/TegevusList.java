@@ -63,6 +63,11 @@ public class TegevusList {
         this.uuendaFaili();
     }
 
+    public void muudaTehtuks(int i) {
+        this.tegevused.get(i-1).setTehtud(true);
+        this.uuendaFaili();
+    }
+
     public int listPikkus(){
         return this.tegevused.size();
     }
