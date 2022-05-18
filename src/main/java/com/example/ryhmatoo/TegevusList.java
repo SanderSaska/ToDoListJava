@@ -66,7 +66,7 @@ public class TegevusList {
     }
 
     public void muudaTehtuks(int i) {
-        this.tegevused.get(i-1).setTehtud(true);
+        this.tegevused.get(i).setTehtud(true);
         this.uuendaFaili();
     }
 
